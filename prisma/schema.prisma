@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AppUser_TB {
+  id               Int      @id @default(autoincrement())
+  lastName         String   @map("LastName")
+  name             String   @map("Name")
+  isMilitar        Boolean  @map("IsMilitar")
+  isTemporal       Boolean  @map("IsTemporal")
+  timeCreate       DateTime @map("TimeCreate") @default(now())
+  username         String   @unique
+  password         String
+  email            String   @unique
+  emailVerified    Boolean  @default(false)
+  verificationToken String?
+
+  document         UserDocument_TB?
+  contactInfo      ContactInfo_TB?
+}
+
+model UserDocument_TB {
+  userID           Int      @id @map("UserID")
+  document         String   @map("Document")
+  typeDocumentID   Int      @map("TypeDocumentID")
+  placeExpedition  String   @map("PlaceExpedition")
+  dateExpedition   DateTime @map("DateExpedition")
+
+  user             AppUser_TB      @relation(fields: [userID], references: [id])
+  typeDocument     TypeDocument_TB @relation(fields: [typeDocumentID], references: [id])
+}
+
+model TypeDocument_TB {
+  id               Int               @id @default(autoincrement())
+  nameTypeDocument String            @map("NameTypeDocument")
+  documents        UserDocument_TB[]
+}
+
+model Country_TB {
+  id               Int               @id @default(autoincrement())
+  countryCode      String            @map("CountryCode")
+  countryName      String            @map("CountryName")
+  contacts         ContactInfo_TB[]
+}
+
+model ContactInfo_TB {
+  id               Int               @id @default(autoincrement())
+  userID           Int               @unique @map("UserID")
+  address          String            @map("Address")
+  city             String            @map("City")
+  phone            String            @map("Phone")
+  cellPhone        String            @map("CellPhone")
+  emergencyName    String            @map("EmergencyName")
+  emergencyPhone   String            @map("EmergencyPhone")
+  countryID        Int               @map("CountryID")
+
+  user             AppUser_TB       @relation(fields: [userID], references: [id])
+  country          Country_TB       @relation(fields: [countryID], references: [id])
+}
