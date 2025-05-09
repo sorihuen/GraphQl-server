@@ -18,8 +18,6 @@ Una API robusta y escalable construida con GraphQL, Apollo Server, Prisma ORM y 
 - [Uso](#-uso)
 - [Documentación API](#-documentación-api)
 - [Ejemplos de consultas](#-ejemplos-de-consultas)
-- [Pruebas](#-pruebas)
-- [Despliegue](#-despliegue)
 - [Contribuciones](#-contribuciones)
 - [Licencia](#-licencia)
 
@@ -28,8 +26,6 @@ Una API robusta y escalable construida con GraphQL, Apollo Server, Prisma ORM y 
 - ✅ Registro completo de usuarios con datos personales, documentos y contacto
 - ✅ Soporte para usuarios militares y temporales
 - ✅ Almacenamiento seguro de contraseñas con hashing bcrypt
-- ✅ Sistema de verificación de email mediante tokens
-- 
 
 ## 🧩 Tecnologías Utilizadas
 
@@ -46,30 +42,38 @@ Una API robusta y escalable construida con GraphQL, Apollo Server, Prisma ORM y 
 ```
 GraphQL-server/
 │
-├── prisma/
-│   ├── schema.prisma     # Esquema de modelos Prisma
-│   ├── seed.ts           # Script de población inicial de datos
-│   └── migrations/       # Migraciones generadas por Prisma
+├── node_modules/        # Dependencias del proyecto
 │
-├── src/
-│   ├── index.ts          # Punto de entrada del servidor GraphQL
-│   ├── resolvers/        # Resolvers de GraphQL organizados por dominio
-│   │   ├── index.ts      # Exporta todos los resolvers
-│   │   └── user.ts       # Resolvers específicos para usuarios
-│   │
-│   ├── schema/           # Definiciones del schema GraphQL
-│   │   ├── index.ts      # Combina todos los schemas
-│   │   └── user.ts       # Tipos y queries/mutations para usuarios
-│   │
-│   └── utils/            # Utilidades y funciones auxiliares
-│       ├── validation.ts # Funciones de validación
-│       └── auth.ts       # Funciones relacionadas con autenticación
+├── prisma/              # Configuración de Prisma ORM
+│   ├── migrations/      # Migraciones generadas por Prisma
+│   ├── schema.prisma    # Esquema de modelos Prisma (estructura de la BD)
+│   └── seed.ts          # Script de población inicial de datos
 │
-├── .env                  # Variables de entorno (no incluido en el repositorio)
-├── .env.example          # Ejemplo de variables de entorno necesarias
-├── package.json
-├── tsconfig.json
-└── README.md
+├── src/                 # Código fuente de la aplicación
+│   ├── graphql/         # Carpeta con definiciones GraphQL
+│   │   └── typeDefs/    # Definiciones de tipos GraphQL
+│   │       └── userTypeDefs.ts  # Tipos GraphQL para usuarios
+│   │
+│   ├── resolvers/       # Resolvers de GraphQL
+│   │   └── userResolvers.ts  # Resolvers para operaciones de usuarios
+│   │
+│   ├── index.ts         # Punto de entrada del servidor
+│   └── schema.ts        # Definición del schema GraphQL completo
+│
+├── .env                 # Variables de entorno (no incluido en repositorio)
+├── .gitignore           # Configuración de archivos ignorados por Git
+├── package-lock.json    # Versiones exactas de dependencias (generado)
+├── package.json         # Configuración del proyecto y dependencias
+├── README.md            # Documentación del proyecto
+└── tsconfig.json        # Configuración de TypeScript
+```
+
+Esta estructura sigue las mejores prácticas para un proyecto GraphQL con TypeScript y Prisma:
+
+- **Separación clara** entre la capa de base de datos (prisma) y la capa de API (src)
+- **Organización modular** de GraphQL con resolvers y type definitions separados
+- **Archivo schema centralizado** que combina todas las definiciones
+- **Configuración adecuada** con archivos para TypeScript y variables de entornod
 ```
 
 ## 📦 Instalación
